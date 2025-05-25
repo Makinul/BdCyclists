@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "357918934474",
+    "project_id": "bdcyclists-b7b58",
+    "storage_bucket": "bdcyclists-b7b58.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357918934474:android:e0ebcaa240856de50b3b33",
+        "android_client_info": {
+          "package_name": "com.bd.cyclists"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvv9G1kHhyUDW8SRNOmfnRvMtbNk9aY6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

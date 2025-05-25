@@ -22,10 +22,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.bd.cyclists" />
+                  <option name="mobileSdkAppId" value="1:357918934474:android:e0ebcaa240856de50b3b33" />
+                  <option name="projectId" value="bdcyclists-b7b58" />
+                  <option name="projectNumber" value="357918934474" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

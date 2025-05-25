@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.plugin.serialization)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 // Create a variable called keyPropertiesFile, and initialize it to your
@@ -23,7 +25,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.bd.cyclist"
+        applicationId = "com.bd.cyclists"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -95,6 +97,7 @@ dependencies {
     // Kotlinx Serialization runtime
     implementation(libs.kotlinx.serialization.json) // Check for the latest stable version
 
-    // Mapbox Maps SDK
-    implementation(libs.mapbox.android) // Check for the latest stable version
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 }
