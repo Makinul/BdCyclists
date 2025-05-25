@@ -35,11 +35,6 @@ android {
 
         buildConfigField(
             "String",
-            "MAPBOX_ACCESS_TOKEN",
-            "\"${keyProperties["MAPBOX_ACCESS_TOKEN"] as String}\""
-        )
-        buildConfigField(
-            "String",
             "GOOGLE_MAP_API_KEY",
             "\"${keyProperties["GOOGLE_MAP_API_KEY"] as String}\""
         )
@@ -121,4 +116,7 @@ dependencies {
     implementation(libs.google.maps.compose.utils)
     // Optionally, you can include the widgets library for ScaleBar, etc.
     implementation(libs.google.maps.compose.widgets)
+    implementation(libs.play.services.location)
+
+    implementation(libs.accompanist.permissions)
 }
