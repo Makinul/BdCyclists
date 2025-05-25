@@ -16,6 +16,7 @@ kotlinxSerialization = "1.8.1"
 googleServices = "4.4.2"
 firebaseBom = "33.14.0"
 firebaseCrashlytics = "3.0.3"
+googleMap = "6.4.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,6 +49,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+google-maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "googleMap" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

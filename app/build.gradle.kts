@@ -34,6 +34,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField ("String", "MAPBOX_ACCESS_TOKEN", "\"${keyProperties["MAPBOX_ACCESS_TOKEN"] as String}\"")
+        buildConfigField ("String", "GOOGLE_MAP_API_KEY", "\"${keyProperties["GOOGLE_MAP_API_KEY"] as String}\"")
+
+        manifestPlaceholders["GOOGLE_MAP_API_KEY"] = keyProperties["GOOGLE_MAP_API_KEY"] as String
     }
 
     buildTypes {
@@ -100,4 +103,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
+
+    // Android Maps Compose composables for the Maps SDK for Android
+    implementation(libs.google.maps.compose)
 }
