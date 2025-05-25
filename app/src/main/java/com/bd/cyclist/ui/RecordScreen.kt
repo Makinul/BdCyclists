@@ -18,12 +18,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -35,21 +35,20 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.Polyline
+import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberUpdatedMarkerState
-import androidx.compose.ui.graphics.Color // For polyline color
-import kotlin.collections.mutableListOf
 
 @OptIn(ExperimentalPermissionsApi::class) // Required for Accompanist Permissions APIs
 @Composable
@@ -108,7 +107,7 @@ fun RecordScreen(
     val startLocationUpdates: () -> Unit = {
         if (locationPermissionState.status.isGranted) {
             val locationRequest = LocationRequest.Builder(10000L) // Update every 10 seconds
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
                 .setMinUpdateIntervalMillis(5000L) // Minimum update interval
                 .build()
 
