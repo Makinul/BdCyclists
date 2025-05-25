@@ -1,9 +1,22 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.plugin.serialization)
 }
+
+// Create a variable called keyPropertiesFile, and initialize it to your
+// key.properties file, in the rootProject folder.
+val keyPropertiesFile = rootProject.file("key.properties")
+
+// Initialize a new Properties() object called keyProperties.
+val keyProperties = Properties()
+
+// Load your key.properties file into the keyProperties object.
+keyProperties.load(FileInputStream(keyPropertiesFile))
 
 android {
     namespace = "com.bd.cyclist"
@@ -17,6 +30,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField ("String", "MAPBOX_ACCESS_TOKEN", "\"${keyProperties["MAPBOX_ACCESS_TOKEN"] as String}\"")
     }
 
     buildTypes {
@@ -37,6 +52,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -68,7 +84,6 @@ dependencies {
     // Koin for Jetpack Compose (if you need Compose-specific integration like viewModel, rememberKoinInject)
     implementation(libs.koin.androidx.compose)
 
-
     // Ktor Client Core
     implementation(libs.ktor.client.core) // Check for the latest stable version
     // Ktor Client for Android (engine)
@@ -79,4 +94,7 @@ dependencies {
     implementation(libs.ktor.serialization.kotlinx.json)
     // Kotlinx Serialization runtime
     implementation(libs.kotlinx.serialization.json) // Check for the latest stable version
+
+    // Mapbox Maps SDK
+    implementation(libs.mapbox.android) // Check for the latest stable version
 }
