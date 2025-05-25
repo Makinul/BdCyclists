@@ -17,6 +17,7 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
+import com.google.maps.android.compose.rememberUpdatedMarkerState
 
 @Composable
 fun RecordScreen(
@@ -49,7 +50,7 @@ fun RecordScreen(
         ) {
             // Add a marker for Dhaka
             Marker(
-                state = rememberMarkerState(position = dhakaLatLng),
+                state = rememberUpdatedMarkerState(position = dhakaLatLng),
                 title = "BdCyclist Start Point",
                 snippet = "Welcome to Dhaka!"
             )
