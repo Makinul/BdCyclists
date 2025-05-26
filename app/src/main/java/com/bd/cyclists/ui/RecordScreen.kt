@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bd.cyclists.services.LocationTrackingService
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
@@ -54,6 +55,9 @@ fun RecordScreen(
 
     // State for location permission
     val locationPermissionState = rememberPermissionState(Manifest.permission.ACCESS_FINE_LOCATION)
+    // NEW: Notification Permission state for Android 13+
+    val postNotificationPermissionState =
+        rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
 
     // Observe tracking state from a ViewModel or derive locally based on service
     var isTrackingServiceActive by remember { mutableStateOf(false) }
@@ -220,24 +224,62 @@ fun RecordScreen(
                             context.stopService(stopIntent)
                             isTrackingServiceActive = false
                         } else {
-                            // Request permission again just in case, though it should be granted here
-                            if (locationPermissionState.status.isGranted) {
-                                val startIntent =
-                                    Intent(context, LocationTrackingService::class.java).apply {
-                                        action = LocationTrackingService.ACTION_START_TRACKING
+                            // --- NEW: Handle Notification Permission Before Starting Service ---
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // API 33+
+                                when {
+                                    postNotificationPermissionState.status.isGranted -> {
+                                        // Notification permission granted, proceed to start service
+                                        // Request permission again just in case, though it should be granted here
+                                        if (locationPermissionState.status.isGranted) {
+                                            val startIntent =
+                                                Intent(
+                                                    context,
+                                                    LocationTrackingService::class.java
+                                                ).apply {
+                                                    action =
+                                                        LocationTrackingService.ACTION_START_TRACKING
+                                                }
+                                            // Clear path points when starting a new track
+                                            collectedPathPoints.clear()
+                                            context.startForegroundService(startIntent)
+                                            isTrackingServiceActive = true
+                                        } else {
+                                            // Re-request permission if somehow not granted
+                                            locationPermissionState.launchPermissionRequest()
+                                        }
                                     }
-                                // Clear path points when starting a new track
-                                collectedPathPoints.clear()
-                                // For Android O (API 26) and above, use startForegroundService()
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    context.startForegroundService(startIntent)
-                                } else {
-                                    context.startService(startIntent)
+
+                                    postNotificationPermissionState.status.shouldShowRationale -> {
+                                        // Show rationale for notification permission
+                                        // You can show a custom dialog here, similar to location rationale
+                                        // showAlertDialog(postNotificationPermissionState)
+                                    }
+
+                                    else -> { // Permission not yet requested or permanently denied
+                                        postNotificationPermissionState.launchPermissionRequest()
+                                        // The service will only start if permission is granted after this request
+                                    }
                                 }
-                                isTrackingServiceActive = true
                             } else {
-                                // Re-request permission if somehow not granted
-                                locationPermissionState.launchPermissionRequest()
+                                // Request permission again just in case, though it should be granted here
+                                if (locationPermissionState.status.isGranted) {
+                                    val startIntent =
+                                        Intent(context, LocationTrackingService::class.java).apply {
+                                            action = LocationTrackingService.ACTION_START_TRACKING
+                                        }
+                                    // Clear path points when starting a new track
+                                    collectedPathPoints.clear()
+                                    // For Android O (API 26) and above, use startForegroundService()
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        context.startForegroundService(startIntent)
+                                    } else {
+                                        context.startService(startIntent)
+                                    }
+                                    isTrackingServiceActive = true
+                                } else {
+                                    // Re-request permission if somehow not granted
+                                    locationPermissionState.launchPermissionRequest()
+                                }
                             }
                         }
                     },
@@ -306,4 +348,22 @@ fun RecordScreen(
             }
         }
     }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun showAlertDialog(postNotificationPermissionState: PermissionState) {
+    AlertDialog(
+        onDismissRequest = { /* Dismiss action */ },
+        title = { Text("Notification Permission Required") },
+        text = { Text("BdCyclist needs notification access to run location tracking in the background. Please grant this permission.") },
+        confirmButton = {
+            TextButton(onClick = { postNotificationPermissionState.launchPermissionRequest() }) {
+                Text("Grant")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = { /* Dismiss */ }) { Text("Dismiss") }
+        }
+    )
 }
