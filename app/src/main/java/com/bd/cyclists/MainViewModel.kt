@@ -1,9 +1,9 @@
-package com.bd.cyclist
+package com.bd.cyclists
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bd.cyclist.data.model.Post
-import com.bd.cyclist.data.repository.MyRepository
+import com.bd.cyclists.data.model.Post
+import com.bd.cyclists.data.repository.MyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

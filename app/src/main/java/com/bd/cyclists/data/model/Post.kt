@@ -1,4 +1,4 @@
-package com.bd.cyclist.data.model
+package com.bd.cyclists.data.model
 
 import kotlinx.serialization.Serializable
 

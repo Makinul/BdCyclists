@@ -1,4 +1,4 @@
-package com.bd.cyclist.ui
+package com.bd.cyclists.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,14 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SettingsScreen() {
-    /* Content for Settings screen */
+fun ProfileScreen() {
+    /* Content for Profile screen */
     Box(
         modifier = Modifier
             .fillMaxSize() // Make the box fill the available space
             .background(MaterialTheme.colorScheme.surfaceVariant) // Set background color
             .padding(16.dp)
     ) {
-        Text("Settings Screen Content")
+        Text("Profile Screen Content")
     }
 }

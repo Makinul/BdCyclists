@@ -1,4 +1,4 @@
-package com.bd.cyclist
+package com.bd.cyclists
 
 import org.junit.Test
 

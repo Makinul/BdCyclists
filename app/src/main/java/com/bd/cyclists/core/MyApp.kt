@@ -1,7 +1,7 @@
-package com.bd.cyclist.core
+package com.bd.cyclists.core
 
 import android.app.Application
-import com.bd.cyclist.di.appModule
+import com.bd.cyclists.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

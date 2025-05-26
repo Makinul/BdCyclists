@@ -21,7 +21,7 @@ val keyProperties = Properties()
 keyProperties.load(FileInputStream(keyPropertiesFile))
 
 android {
-    namespace = "com.bd.cyclist"
+    namespace = "com.bd.cyclists"
     compileSdk = 35
 
     defaultConfig {

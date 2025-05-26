@@ -1,4 +1,4 @@
-package com.bd.cyclist.ui.theme
+package com.bd.cyclists.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

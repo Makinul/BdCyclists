@@ -1,7 +1,7 @@
-package com.bd.cyclist.data.repository
+package com.bd.cyclists.data.repository
 
-import com.bd.cyclist.data.model.Post
-import com.bd.cyclist.data.service.ApiService
+import com.bd.cyclists.data.model.Post
+import com.bd.cyclists.data.service.ApiService
 
 // In MyRepository (updated)
 class MyRepository(

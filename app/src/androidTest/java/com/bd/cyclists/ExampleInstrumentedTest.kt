@@ -1,4 +1,4 @@
-package com.bd.cyclist
+package com.bd.cyclists
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,9 +1,9 @@
-package com.bd.cyclist.di
+package com.bd.cyclists.di
 
-import com.bd.cyclist.MainViewModel
-import com.bd.cyclist.data.repository.MyRepository
-import com.bd.cyclist.data.service.ApiService
-import com.bd.cyclist.data.service.ApiServiceImpl
+import com.bd.cyclists.MainViewModel
+import com.bd.cyclists.data.repository.MyRepository
+import com.bd.cyclists.data.service.ApiService
+import com.bd.cyclists.data.service.ApiServiceImpl
 import org.koin.dsl.module
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android

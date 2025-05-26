@@ -1,6 +1,6 @@
-package com.bd.cyclist.data.service
+package com.bd.cyclists.data.service
 
-import com.bd.cyclist.data.model.Post
+import com.bd.cyclists.data.model.Post
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.HttpClient // Import HttpClient

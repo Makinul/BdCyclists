@@ -1,4 +1,4 @@
-package com.bd.cyclist.ui
+package com.bd.cyclists.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,7 +40,6 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Activities() {

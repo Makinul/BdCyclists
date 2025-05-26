@@ -1,4 +1,4 @@
-package com.bd.cyclist
+package com.bd.cyclists
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -60,11 +60,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.bd.cyclist.ui.HomeScreen
-import com.bd.cyclist.ui.ProfileScreen
-import com.bd.cyclist.ui.RecordScreen
-import com.bd.cyclist.ui.SearchScreen
-import com.bd.cyclist.ui.theme.BdCyclistTheme
+import com.bd.cyclists.ui.HomeScreen
+import com.bd.cyclists.ui.ProfileScreen
+import com.bd.cyclists.ui.RecordScreen
+import com.bd.cyclists.ui.SearchScreen
+import com.bd.cyclists.ui.theme.BdCyclistTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
