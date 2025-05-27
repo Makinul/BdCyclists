@@ -58,7 +58,7 @@ fun BdCyclistTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.secondary.toArgb() // Use your primary color for the status bar
+            window.statusBarColor = colorScheme.primary.toArgb() // Use your primary color for the status bar
             // You can also control the status bar icons' color (light/dark)
              WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme // Adjust based on your theme
         }

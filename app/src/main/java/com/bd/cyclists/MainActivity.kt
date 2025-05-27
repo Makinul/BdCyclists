@@ -61,6 +61,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bd.cyclists.ui.HomeScreen
+import com.bd.cyclists.ui.MenuScreen
 import com.bd.cyclists.ui.ProfileScreen
 import com.bd.cyclists.ui.RecordScreen
 import com.bd.cyclists.ui.SearchScreen
@@ -87,16 +88,33 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BdCyclistScreenStructure() {
     val navController = rememberNavController() // Get NavController
+    // NEW: Observe the current back stack entry to get the current route
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    val items = listOf(
+        BottomNavItem("Home", Icons.Default.Home, "home"),
+        BottomNavItem("Maps", Icons.Default.LocationOn, "maps"),
+        BottomNavItem("Record", Icons.Default.PlayArrow, "record"), // Changed icon for Record
+        BottomNavItem("Groups", Icons.Default.Person, "groups"),
+        BottomNavItem("Menu", Icons.Default.Menu, "menu")
+    )
+
+    // Determine the current title based on the route
+    val currentTitle = items.find {
+        it.route == currentRoute
+    }?.title ?: stringResource(R.string.app_name)
+
     Scaffold(
         topBar = {
-            TopBarContent(navController)
+            TopBarContent(navController, currentRoute, currentTitle)
         },
         bottomBar = {
-            BottomNavigationBar(navController)
+            BottomNavigationBar(navController, items)
         }
     ) { innerPadding ->
         NavHost(
-            navController = navController, startDestination = "record",
+            navController = navController, startDestination = "menu",
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
             modifier = Modifier.padding(innerPadding)
@@ -105,7 +123,7 @@ fun BdCyclistScreenStructure() {
             composable("maps") { /* Content for Maps screen */ Text("Maps Screen Content") }
             composable("record") { RecordScreen() }
             composable("groups") { /* Content for Groups screen */ Text("Groups Screen Content") }
-            composable("you") { /* Content for You screen */ Text("You Screen Content") }
+            composable("menu") { MenuScreen() }
 
             composable(
                 "profile",
@@ -159,29 +177,25 @@ fun BdCyclistScreenStructure() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewStravaTopAppBarWithBack() {
-    MaterialTheme {
-        TopBarContent(rememberNavController()) // Provide a dummy NavController for preview
+    BdCyclistTheme {
+        TopBarContent(
+            rememberNavController(),
+            currentRoute = "record",
+            currentTitle = "Record"
+        ) // Provide a dummy NavController for preview
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarContent(navController: NavHostController) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-
+fun TopBarContent(navController: NavHostController, currentRoute: String?, currentTitle: String) {
+    // Routes where back button should appear
     val showBackButton =
-        currentRoute == "profile" || currentRoute == "settings" || currentRoute == "search" // Routes where back button should appear
+        currentRoute == "profile" || currentRoute == "settings" || currentRoute == "search"
 
     TopAppBar(
         title = {
-            if (showBackButton) {
-                Text(currentRoute.uppercase())
-            } else {
-                Text(
-                    stringResource(R.string.app_name)
-                )
-            }
+            Text(currentTitle)
         },
         colors = TopAppBarDefaults.topAppBarColors( // Apply colors here
             containerColor = MaterialTheme.colorScheme.primary, // Use theme's primary color
@@ -253,7 +267,6 @@ fun PreviewBdCyclistScreenStructure() {
     }
 }
 
-
 // Data class to represent each item in the bottom navigation
 data class BottomNavItem(
     val title: String,
@@ -262,14 +275,7 @@ data class BottomNavItem(
 )
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController) {
-    val items = listOf(
-        BottomNavItem("Home", Icons.Default.Home, "home"),
-        BottomNavItem("Maps", Icons.Default.LocationOn, "maps"),
-        BottomNavItem("Record", Icons.Default.PlayArrow, "record"), // Changed icon for Record
-        BottomNavItem("Groups", Icons.Default.Person, "groups"),
-        BottomNavItem("You", Icons.Default.Menu, "you")
-    )
+fun BottomNavigationBar(navController: NavHostController, items: List<BottomNavItem>) {
 
     // Remember the currently selected item
     var selectedItem by remember { mutableStateOf(items[0]) } // Home is initially selected
