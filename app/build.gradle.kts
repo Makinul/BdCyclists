@@ -77,6 +77,9 @@ dependencies {
     implementation(libs.androidx.animation)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk) // For mocking dependencies
+    testImplementation(libs.kotlinx.coroutines.test) // For testing coroutines
+    // Add more for Android-specific tests if needed later (e.g., androidx.test)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
