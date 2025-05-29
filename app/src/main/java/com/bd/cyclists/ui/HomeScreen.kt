@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 fun HomeScreen() {
     Text("Home Screen Content")
 
-    TabContent(0)
+    TabContent(1)
 }
 
 @Composable

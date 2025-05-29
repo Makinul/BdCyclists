@@ -114,7 +114,7 @@ fun BdCyclistScreenStructure() {
         }
     ) { innerPadding ->
         NavHost(
-            navController = navController, startDestination = "menu",
+            navController = navController, startDestination = "home",
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
             modifier = Modifier.padding(innerPadding)

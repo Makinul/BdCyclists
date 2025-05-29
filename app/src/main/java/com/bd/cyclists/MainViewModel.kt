@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bd.cyclists.data.model.Post
 import com.bd.cyclists.data.repository.MyRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,7 +33,8 @@ class MainViewModel(
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             try {
-                val posts = myRepository.getUserPosts() // Call the repository
+                val posts = myRepository.getUserPosts()
+                delay(2000)
                 _uiState.value =
                     _uiState.value.copy(isLoading = false, posts = posts, message = "Posts Loaded!")
             } catch (e: Exception) {
@@ -62,8 +64,17 @@ class MainViewModel(
                     // You might want to update a specific post list or a single post state
                 )
             } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(isLoading = false, error = "Failed to fetch post: ${e.localizedMessage}")
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = "Failed to fetch post: ${e.localizedMessage}"
+                )
             }
+        }
+    }
+
+    fun loadMovieList() {
+        viewModelScope.launch {
+
         }
     }
 }

@@ -35,6 +35,11 @@ android {
 
         buildConfigField(
             "String",
+            "API_KEY",
+            "\"${keyProperties["API_KEY"] as String}\""
+        )
+        buildConfigField(
+            "String",
             "GOOGLE_MAP_API_KEY",
             "\"${keyProperties["GOOGLE_MAP_API_KEY"] as String}\""
         )
@@ -89,14 +94,14 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // Koin core
-    implementation(libs.koin.core) // Check for the latest stable version
+    implementation(libs.koin.core)
     // Koin for Android
     implementation(libs.koin.android)
     // Koin for Jetpack Compose (if you need Compose-specific integration like viewModel, rememberKoinInject)
     implementation(libs.koin.androidx.compose)
 
     // Ktor Client Core
-    implementation(libs.ktor.client.core) // Check for the latest stable version
+    implementation(libs.ktor.client.core)
     // Ktor Client for Android (engine)
     implementation(libs.ktor.client.android)
     // Ktor Client Content Negotiation (for JSON parsing)
@@ -104,7 +109,9 @@ dependencies {
     // Ktor Client JSON Serializer (Kotlinx Serialization)
     implementation(libs.ktor.serialization.kotlinx.json)
     // Kotlinx Serialization runtime
-    implementation(libs.kotlinx.serialization.json) // Check for the latest stable version
+    implementation(libs.kotlinx.serialization.json)
+    // Logging for Ktor
+    implementation(libs.ktor.client.logging)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
@@ -121,5 +128,11 @@ dependencies {
     implementation(libs.google.maps.compose.widgets)
     implementation(libs.play.services.location)
 
+    // to handle run time permissions
     implementation(libs.accompanist.permissions)
+
+    // Paging 3 Runtime (Kotlin)
+    implementation(libs.androidx.paging.runtime.ktx)
+    // Paging 3 Compose integration
+    implementation(libs.androidx.paging.compose)
 }

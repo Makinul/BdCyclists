@@ -9,52 +9,95 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.isTraversalGroup
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.traversalIndex
-import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
+import androidx.compose.ui.unit.dp
+import com.bd.cyclists.data.model.Post
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bd.cyclists.MainViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Activities() {
-    /* Content for Profile screen */
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .background(MaterialTheme.colorScheme.surfaceVariant) // Set background color
-    ) {
-        Text("This is activities screen1")
-        Text("This is activities screen2")
-        SimpleSearchBarExample()
-        Text("This is activities screen3")
-        Text("This is activities screen4")
+fun Activities(
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel = koinViewModel()
+) {
+    // Observe the UI state from the ViewModel
+    // use collectAsStateWithLifecycle for lifecycle-aware collection (recommended)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    // Alternatively, for simpler cases or older compose versions:
+    // val uiState by viewModel.uiState.collectAsState()
+    val listState = rememberLazyListState()
+
+    MyLazyColumn(uiState.posts, {
+        println("Loading more")
+    }, uiState.isLoading)
+}
+
+@Composable
+fun MyLazyColumn(
+    items: List<Post>,
+    loadMore: () -> Unit,
+    isLoading: Boolean,
+    modifier: Modifier = Modifier
+) {
+    val listState = rememberLazyListState()
+
+    LazyColumn(state = listState, modifier = modifier) {
+        item {
+            Text(text = "Header")
+        }
+
+        items(items) { item ->
+            Text(item.title)
+        }
+
+        // Optional: Loading indicator at the bottom
+        if (isLoading) {
+            item {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .wrapContentWidth(Alignment.CenterHorizontally)
+                )
+            }
+        }
+    }
+
+    // Check if we're near the bottom and trigger loadMore
+    LaunchedEffect(listState.layoutInfo.visibleItemsInfo.lastOrNull()) {
+        if (listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == items.size - 3) { // Adjust '3' as needed
+            loadMore()
+        }
     }
 }
 
