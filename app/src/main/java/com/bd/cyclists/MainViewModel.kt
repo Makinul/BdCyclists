@@ -8,6 +8,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
+import com.bd.cyclists.data.model.BaseModel
+import com.bd.cyclists.data.model.MovieItem
+import com.bd.cyclists.data.service.ApiService
+import com.bd.cyclists.utils.MoviePagingSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 // Example: Represents some data your UI might display
 // Example: Represents some data your UI might display
@@ -77,4 +88,16 @@ class MainViewModel(
 
         }
     }
+
+//    val moviePagingSource: Flow<PagingData<MovieItem>> = Pager(
+//        config = PagingConfig(
+//            pageSize = 20,          // Number of items per page
+//            enablePlaceholders = false, // Set to true if you want placeholders for un-loaded items
+//            initialLoadSize = 20    // Initial number of items to load
+//        ),
+//        pagingSourceFactory = { MoviePagingSource(myRepository) }
+//    ).flow.cachedIn(viewModelScope) // Cache the PagingData flow within the ViewModel's scope
+
+    val moviePagingSource: Flow<PagingData<MovieItem>> =
+        myRepository.nowPlayingMovies(1).cachedIn(viewModelScope)
 }

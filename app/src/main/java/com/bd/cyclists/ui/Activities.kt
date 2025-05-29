@@ -1,13 +1,14 @@
 package com.bd.cyclists.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,7 +25,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
@@ -39,10 +39,15 @@ import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
 import com.bd.cyclists.data.model.Post
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.bd.cyclists.MainViewModel
+import com.bd.cyclists.data.model.MovieItem
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -50,16 +55,107 @@ fun Activities(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = koinViewModel()
 ) {
-    // Observe the UI state from the ViewModel
-    // use collectAsStateWithLifecycle for lifecycle-aware collection (recommended)
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    // Alternatively, for simpler cases or older compose versions:
-    // val uiState by viewModel.uiState.collectAsState()
-    val listState = rememberLazyListState()
+//    // Observe the UI state from the ViewModel
+//    // use collectAsStateWithLifecycle for lifecycle-aware collection (recommended)
+//    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+//    // Alternatively, for simpler cases or older compose versions:
+//    // val uiState by viewModel.uiState.collectAsState()
+//    val listState = rememberLazyListState()
+//
+//    MyLazyColumn(uiState.posts, {
+//        println("Loading more")
+//    }, uiState.isLoading)
 
-    MyLazyColumn(uiState.posts, {
-        println("Loading more")
-    }, uiState.isLoading)
+    val movieItems = viewModel.moviePagingSource.collectAsLazyPagingItems()
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(8.dp)
+    ) {
+        items(
+            count = movieItems.itemCount
+        ) { index ->
+            movieItems[index]?.let {
+                // Your composable for a single activity item
+                MovieItem(item = it)
+            }
+        }
+
+        // Handle loading and error states for initial load and subsequent pages
+        movieItems.apply {
+            when {
+                loadState.refresh is LoadState.Loading -> { // Initial load
+                    item {
+                        Box(
+                            modifier = Modifier.fillParentMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                }
+
+                loadState.append is LoadState.Loading -> { // Loading next page
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                }
+
+                loadState.refresh is LoadState.Error -> { // Initial load error
+                    val error = loadState.refresh as LoadState.Error
+                    item {
+                        ErrorMessage(
+                            message = "Error loading activities: ${error.error.localizedMessage}",
+                            modifier = Modifier.fillParentMaxSize(),
+                            onRetryClick = { retry() } // Provide a retry mechanism
+                        )
+                    }
+                }
+
+                loadState.append is LoadState.Error -> { // Next page load error
+                    val error = loadState.append as LoadState.Error
+                    item {
+                        ErrorMessage(
+                            message = "Error loading more: ${error.error.localizedMessage}",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            onRetryClick = { retry() }
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun MovieItem(item: MovieItem) {
+    // Design your individual activity item here
+    Text(text = "Title: ${item.title}", modifier = Modifier.padding(8.dp))
+    // Add more UI elements for your activity item
+}
+
+@Composable
+fun ErrorMessage(message: String, modifier: Modifier = Modifier, onRetryClick: () -> Unit) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = message, textAlign = TextAlign.Center)
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(onClick = onRetryClick) {
+            Text("Retry")
+        }
+    }
 }
 
 @Composable
