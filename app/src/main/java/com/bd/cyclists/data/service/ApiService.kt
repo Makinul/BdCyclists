@@ -28,8 +28,6 @@ class ApiServiceImpl(private val httpClient: HttpClient) : ApiService {
                 parameters.append("page", page.toString())
             }
         }.body()
-
-        return httpClient.get("https://jsonplaceholder.typicode.com/posts").body()
     }
 
     override suspend fun getPosts(): List<Post> {

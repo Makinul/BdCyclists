@@ -45,13 +45,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemKey
+import coil3.compose.AsyncImage
 import com.bd.cyclists.MainViewModel
 import com.bd.cyclists.data.model.MovieItem
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Activities(
+fun ActivitiesScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = koinViewModel()
 ) {
@@ -137,10 +137,20 @@ fun Activities(
 }
 
 @Composable
-fun MovieItem(item: MovieItem) {
-    // Design your individual activity item here
-    Text(text = "Title: ${item.title}", modifier = Modifier.padding(8.dp))
-    // Add more UI elements for your activity item
+fun MovieItem(modifier: Modifier = Modifier, item: MovieItem) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        // Design your individual activity item here
+        Text(text = "Title: ${item.title}", modifier = Modifier.padding(8.dp))
+        // Add more UI elements for your activity item
+        AsyncImage(
+            model = "https://unsplash.com/photos/rNYCrcjUnOA/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzQ4NTgyMDIyfA&force=true&w=640",
+            contentDescription = null,
+        )
+    }
 }
 
 @Composable

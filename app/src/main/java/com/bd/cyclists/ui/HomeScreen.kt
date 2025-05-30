@@ -49,8 +49,8 @@ fun TabContent(selectedTab: Int) {
             modifier = Modifier.fillMaxSize()
         ) {
             when (selectedTabIndex) {
-                0 -> Progress()
-                1 -> Activities()
+                0 -> ProgressScreen()
+                1 -> ActivitiesScreen()
             }
         }
     }

@@ -1,11 +1,8 @@
 package com.bd.cyclists.data.repository
 
-import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.bd.cyclists.data.model.BaseModel
 import com.bd.cyclists.data.model.MovieItem
 import com.bd.cyclists.data.model.Post
 import com.bd.cyclists.data.service.ApiService
