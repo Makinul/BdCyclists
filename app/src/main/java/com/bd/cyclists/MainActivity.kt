@@ -60,6 +60,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.bd.cyclists.ui.DownloadListScreen
+import com.bd.cyclists.ui.GroupScreen
 import com.bd.cyclists.ui.HomeScreen
 import com.bd.cyclists.ui.MenuScreen
 import com.bd.cyclists.ui.ProfileScreen
@@ -95,7 +97,7 @@ fun BdCyclistScreenStructure() {
     val items = listOf(
         BottomNavItem("Home", Icons.Default.Home, "home"),
         BottomNavItem("Maps", Icons.Default.LocationOn, "maps"),
-        BottomNavItem("Record", Icons.Default.PlayArrow, "record"), // Changed icon for Record
+        BottomNavItem("Record", Icons.Default.PlayArrow, "record"),
         BottomNavItem("Groups", Icons.Default.Person, "groups"),
         BottomNavItem("Menu", Icons.Default.Menu, "menu")
     )
@@ -114,7 +116,7 @@ fun BdCyclistScreenStructure() {
         }
     ) { innerPadding ->
         NavHost(
-            navController = navController, startDestination = "home",
+            navController = navController, startDestination = "groups",
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
             modifier = Modifier.padding(innerPadding)
@@ -122,7 +124,7 @@ fun BdCyclistScreenStructure() {
             composable("home") { HomeScreen() }
             composable("maps") { /* Content for Maps screen */ Text("Maps Screen Content") }
             composable("record") { RecordScreen() }
-            composable("groups") { /* Content for Groups screen */ Text("Groups Screen Content") }
+            composable("groups") { DownloadListScreen() }
             composable("menu") { MenuScreen() }
 
             composable(
@@ -276,10 +278,6 @@ data class BottomNavItem(
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController, items: List<BottomNavItem>) {
-
-    // Remember the currently selected item
-    var selectedItem by remember { mutableStateOf(items[0]) } // Home is initially selected
-
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.surface // Use surface for bottom bar as in the screenshot
     ) {
@@ -287,7 +285,7 @@ fun BottomNavigationBar(navController: NavHostController, items: List<BottomNavI
             NavigationBarItem(
                 icon = { Icon(item.icon, contentDescription = item.title) },
                 label = { Text(item.title) },
-                selected = navController.currentBackStackEntryAsState().value?.destination?.route == item.route, // Update selection logic
+                selected = navController.currentBackStackEntryAsState().value?.destination?.route == item.route,
                 onClick = {
                     navController.navigate(item.route) {
                         // Pop up to the start destination of the graph to avoid building up a large stack of destinations

@@ -37,32 +37,3 @@ fun MenuScreen() {
         }
     }
 }
-
-//@Composable
-//fun MutableListStateExample(modifier: Modifier = Modifier) {
-//    val listState = remember { mutableStateOf(value = mutableListOf("A", "B")) }
-//    Column(modifier = modifier) {
-//        Button(onClick = {
-//            listState.value.add("C")
-//        }) {
-//            Text(text = "Add (mutableListof)")
-//        }
-//
-//        // Don\'t Recomposition
-//        Text(text = "List: ${listState.value.joinToString()}")
-//    }
-//}
-//
-//@Composable
-//fun ImmutableListStateExample(modifier: Modifier = Modifier) {
-//    val list = remember { mutableStateOf(value = listOf("A", "B")) }
-//    Column {
-//        Button(onClick = {
-//            list.value = list.value + "C"
-//        }) {
-//            Text(text = "Add (listof)")
-//        }
-//        // Recomposition
-//        Text(text = "List: ${list.value.joinToString()}")
-//    }
-//}

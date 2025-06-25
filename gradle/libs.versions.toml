@@ -27,6 +27,9 @@ playServicesLocation = "21.3.0"
 pagingRuntime = "3.3.6"
 pagingCompose = "3.3.6"
 
+coilCompose = "3.2.0"
+coilOkhttp = "3.2.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
@@ -74,6 +77,9 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntime" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
+
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilOkhttp" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
