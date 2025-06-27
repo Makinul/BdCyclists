@@ -44,9 +44,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -61,8 +58,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bd.cyclists.ui.DownloadListScreen
-import com.bd.cyclists.ui.GroupScreen
 import com.bd.cyclists.ui.HomeScreen
+import com.bd.cyclists.ui.MapsScreen
 import com.bd.cyclists.ui.MenuScreen
 import com.bd.cyclists.ui.ProfileScreen
 import com.bd.cyclists.ui.RecordScreen
@@ -116,13 +113,13 @@ fun BdCyclistScreenStructure() {
         }
     ) { innerPadding ->
         NavHost(
-            navController = navController, startDestination = "groups",
+            navController = navController, startDestination = "maps",
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("home") { HomeScreen() }
-            composable("maps") { /* Content for Maps screen */ Text("Maps Screen Content") }
+            composable("maps") { MapsScreen() }
             composable("record") { RecordScreen() }
             composable("groups") { DownloadListScreen() }
             composable("menu") { MenuScreen() }
