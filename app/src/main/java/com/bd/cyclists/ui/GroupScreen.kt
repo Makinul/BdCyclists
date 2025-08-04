@@ -1,6 +1,7 @@
 package com.bd.cyclists.ui
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,9 +30,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import com.bd.cyclists.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -68,6 +72,7 @@ fun GroupScreen() {
 data class DownloadableItem(
     val id: Int,
     val name: String,
+    val imageResId: Int,
     var downloadProgress: Float = 0f,
     var isDownloading: Boolean = false
 )
@@ -89,11 +94,58 @@ fun DownloadListScreen() {
     // for the composables that use that item.
     val downloadableItems = remember {
         mutableStateListOf(
-            DownloadableItem(1, "Large Image Asset.jpg"),
-            DownloadableItem(2, "User Manual.pdf"),
-            DownloadableItem(3, "Game Update.zip"),
-            DownloadableItem(4, "Video Lecture.mp4"),
-            DownloadableItem(5, "Project Sources.tar.gz")
+            DownloadableItem(
+                id = 1,
+                name = "Large Image Asset.jpg",
+                imageResId = R.drawable.image1
+            ),
+            DownloadableItem(id = 2, name = "User Manual.pdf", imageResId = R.drawable.image2),
+            DownloadableItem(id = 3, name = "Game Update.zip", imageResId = R.drawable.image3),
+            DownloadableItem(id = 4, name = "Video Lecture.mp4", imageResId = R.drawable.image4),
+            DownloadableItem(
+                id = 5,
+                name = "Project Sources.tar.gz",
+                imageResId = R.drawable.image5
+            ),
+            DownloadableItem(
+                id = 6,
+                name = "Large Image Asset.jpg",
+                imageResId = R.drawable.image1
+            ),
+            DownloadableItem(id = 7, name = "User Manual.pdf", imageResId = R.drawable.image2),
+            DownloadableItem(id = 8, name = "Game Update.zip", imageResId = R.drawable.image3),
+            DownloadableItem(id = 9, name = "Video Lecture.mp4", imageResId = R.drawable.image4),
+            DownloadableItem(
+                id = 10,
+                name = "Project Sources.tar.gz",
+                imageResId = R.drawable.image5
+            ),
+            DownloadableItem(
+                id = 11,
+                name = "Large Image Asset.jpg",
+                imageResId = R.drawable.image1
+            ),
+            DownloadableItem(id = 12, name = "User Manual.pdf", imageResId = R.drawable.image2),
+            DownloadableItem(id = 13, name = "Game Update.zip", imageResId = R.drawable.image3),
+            DownloadableItem(id = 14, name = "Video Lecture.mp4", imageResId = R.drawable.image4),
+            DownloadableItem(
+                id = 15,
+                name = "Project Sources.tar.gz",
+                imageResId = R.drawable.image5
+            ),
+            DownloadableItem(
+                id = 16,
+                name = "Large Image Asset.jpg",
+                imageResId = R.drawable.image1
+            ),
+            DownloadableItem(id = 17, name = "User Manual.pdf", imageResId = R.drawable.image2),
+            DownloadableItem(id = 18, name = "Game Update.zip", imageResId = R.drawable.image2),
+            DownloadableItem(id = 19, name = "Video Lecture.mp4", imageResId = R.drawable.image3),
+            DownloadableItem(
+                id = 20,
+                name = "Project Sources.tar.gz",
+                imageResId = R.drawable.image5
+            ),
         )
     }
 
@@ -207,6 +259,16 @@ fun DownloadableItemRow(
                         .height(8.dp)
                 )
             }
+
+            Spacer(Modifier.height(12.dp))
+
+            AsyncImage(
+                model = item.imageResId,
+                contentDescription = item.name,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentScale = ContentScale.FillWidth
+            )
         }
     }
 }
